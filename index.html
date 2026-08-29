@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>My Color Palette</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root { --navy:#06283D; --text-mid:#3d6680; --off-white:#f4f8fb; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    background: var(--off-white);
+    color: var(--navy);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3rem 1.5rem 4rem;
+  }
+  h1 { font-size: 1.4rem; font-weight: 800; margin: 0 0 0.3rem; text-align: center; }
+  p.sub { color: var(--text-mid); font-size: 0.9rem; margin: 0 0 2.25rem; text-align: center; max-width: 420px; line-height: 1.5; }
+
+  .wheel-wrap { position: relative; width: min(340px, 80vw); margin-bottom: 2.25rem; }
+  .wheel-wrap svg { width: 100%; height: auto; display: block; }
+  .wheel-center {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    background: #fff; border-radius: 50%;
+    width: 32%; height: 32%;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; box-shadow: 0 2px 10px rgba(6,40,61,0.12);
+    font-size: 0.68rem; font-weight: 700; color: var(--navy); line-height: 1.3;
+    padding: 0.4rem;
+  }
+  .wheel-slice { cursor: pointer; transition: opacity 0.15s; }
+  .wheel-slice:hover { opacity: 0.85; }
+
+  .legend {
+    width: 100%;
+    max-width: 520px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .legend-row {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    background: #fff;
+    border-radius: 10px;
+    padding: 0.6rem 1rem;
+    box-shadow: 0 1px 6px rgba(6,40,61,0.06);
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .legend-row:hover { transform: translateX(3px); box-shadow: 0 4px 14px rgba(6,40,61,0.12); }
+  .legend-swatch { width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0; border: 1px solid rgba(6,40,61,0.08); }
+  .legend-text { flex: 1; min-width: 0; }
+  .legend-name { font-weight: 700; font-size: 0.85rem; margin: 0; }
+  .legend-hex { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--text-mid); margin: 0; }
+  .legend-tag {
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.4px;
+    padding: 0.2rem 0.55rem; border-radius: 999px; white-space: nowrap;
+  }
+  .tag-primary { background: #fdf1e4; color: #B8610A; }
+  .tag-accent  { background: #e6f4f1; color: #0D9488; }
+  .tag-support { background: #eaf3fc; color: #1565C0; }
+  .tag-neutral { background: #f1f1f1; color: #6b6b6b; }
+  .legend-copied { font-size: 0.68rem; font-weight: 700; color: #0D9488; opacity: 0; transition: opacity 0.2s; flex-shrink: 0; }
+  .legend-row.copied .legend-copied { opacity: 1; }
+</style>
+</head>
+<body>
+
+  <h1>My Color Palette</h1>
+  <p class="sub">The core colors I build with — click any slice or row to copy its hex code.</p>
+
+  <div class="wheel-wrap">
+    <svg viewBox="0 0 200 200"></svg>
+    <div class="wheel-center">Color<br/>System</div>
+  </div>
+
+  <div class="legend" id="legend"></div>
+
+<script>
+  const colors = [
+    { name: "Navy",        hex: "#06283D", role: "Primary",  cls: "tag-primary" },
+    { name: "Navy Mid",    hex: "#0a3d5c", role: "Primary",  cls: "tag-primary" },
+    { name: "Navy Light",  hex: "#1a5276", role: "Primary",  cls: "tag-primary" },
+    { name: "Orange",      hex: "#F5820D", role: "Accent",   cls: "tag-accent" },
+    { name: "Orange Dark", hex: "#B8610A", role: "Accent",   cls: "tag-accent" },
+    { name: "Teal",        hex: "#0D9488", role: "Accent",   cls: "tag-accent" },
+    { name: "Blue",        hex: "#2196F3", role: "Support",  cls: "tag-support" },
+    { name: "Blue Dark",   hex: "#1565C0", role: "Support",  cls: "tag-support" },
+    { name: "Blue Light",  hex: "#64B5F6", role: "Support",  cls: "tag-support" },
+    { name: "White",       hex: "#ffffff", role: "Neutral",  cls: "tag-neutral" },
+    { name: "Off-White",   hex: "#f4f8fb", role: "Neutral",  cls: "tag-neutral" },
+    { name: "Text Mid",    hex: "#3d6680", role: "Text",     cls: "tag-neutral" },
+    { name: "Text Light",  hex: "#d0e8f2", role: "Text",     cls: "tag-neutral" }
+  ];
+
+  const svg = document.querySelector('.wheel-wrap svg');
+  const cx = 100, cy = 100, r = 95;
+  const n = colors.length;
+  const slice = (2 * Math.PI) / n;
+
+  colors.forEach((c, i) => {
+    const start = i * slice - Math.PI / 2;
+    const end = start + slice;
+    const x1 = cx + r * Math.cos(start);
+    const y1 = cy + r * Math.sin(start);
+    const x2 = cx + r * Math.cos(end);
+    const y2 = cy + r * Math.sin(end);
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("d", `M${cx},${cy} L${x1},${y1} A${r},${r} 0 0,1 ${x2},${y2} Z`);
+    path.setAttribute("fill", c.hex);
+    path.setAttribute("stroke", "#fff");
+    path.setAttribute("stroke-width", "1");
+    path.classList.add("wheel-slice");
+    path.dataset.hex = c.hex;
+    path.addEventListener("click", () => copyHex(c.hex));
+    svg.appendChild(path);
+  });
+
+  const legend = document.getElementById('legend');
+  colors.forEach(c => {
+    const row = document.createElement('div');
+    row.className = 'legend-row';
+    row.dataset.hex = c.hex;
+    row.innerHTML = `
+      <div class="legend-swatch" style="background:${c.hex}${c.hex.toLowerCase()==='#ffffff' ? ';border:1px solid #ddd' : ''}"></div>
+      <div class="legend-text">
+        <p class="legend-name">${c.name}</p>
+        <p class="legend-hex">${c.hex}</p>
+      </div>
+      <span class="legend-tag ${c.cls}">${c.role}</span>
+      <span class="legend-copied">Copied!</span>
+    `;
+    row.addEventListener('click', () => copyHex(c.hex, row));
+    legend.appendChild(row);
+  });
+
+  function copyHex(hex, row) {
+    navigator.clipboard.writeText(hex).then(() => {
+      if (row) {
+        row.classList.add('copied');
+        setTimeout(() => row.classList.remove('copied'), 900);
+      }
+    });
+  }
+</script>
+
+</body>
+</html>
