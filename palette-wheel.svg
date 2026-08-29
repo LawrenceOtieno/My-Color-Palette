@@ -1,0 +1,19 @@
+<svg viewBox="0 0 420 420" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <circle cx="210" cy="210" r="198" fill="#ffffff"/>
+  <path d="M210,210 L210.00,15.00 A195,195 0 0,1 300.62,37.34 Z" fill="#06283D" stroke="#ffffff" stroke-width="2"/>
+  <path d="M210,210 L300.62,37.34 A195,195 0 0,1 370.48,99.23 Z" fill="#0a3d5c" stroke="#ffffff" stroke-width="2"/>
+  <path d="M210,210 L370.48,99.23 A195,195 0 0,1 403.58,186.50 Z" fill="#1a5276" stroke="#ffffff" stroke-width="2"/>
+  <path d="M210,210 L403.58,186.50 A195,195 0 0,1 392.33,279.15 Z" fill="#F5820D" stroke="#ffffff" stroke-width="2"/>
+  <path d="M210,210 L392.33,279.15 A195,195 0 0,1 339.31,355.96 Z" fill="#B8610A" stroke="#ffffff" stroke-width="2"/>
+  <path d="M210,210 L339.31,355.96 A195,195 0 0,1 256.67,399.33 Z" fill="#0D9488" stroke="#ffffff" stroke-width="2"/>
+  <path d="M210,210 L256.67,399.33 A195,195 0 0,1 163.33,399.33 Z" fill="#2196F3" stroke="#ffffff" stroke-width="2"/>
+  <path d="M210,210 L163.33,399.33 A195,195 0 0,1 80.69,355.96 Z" fill="#1565C0" stroke="#ffffff" stroke-width="2"/>
+  <path d="M210,210 L80.69,355.96 A195,195 0 0,1 27.67,279.15 Z" fill="#64B5F6" stroke="#ffffff" stroke-width="2"/>
+  <path d="M210,210 L27.67,279.15 A195,195 0 0,1 16.42,186.50 Z" fill="#ffffff" stroke="#e2e8ee" stroke-width="1"/>
+  <path d="M210,210 L16.42,186.50 A195,195 0 0,1 49.52,99.23 Z" fill="#f4f8fb" stroke="#e2e8ee" stroke-width="1"/>
+  <path d="M210,210 L49.52,99.23 A195,195 0 0,1 119.38,37.34 Z" fill="#3d6680" stroke="#ffffff" stroke-width="2"/>
+  <path d="M210,210 L119.38,37.34 A195,195 0 0,1 210.00,15.00 Z" fill="#d0e8f2" stroke="#ffffff" stroke-width="2"/>
+  <circle cx="210" cy="210" r="70" fill="#ffffff" stroke="#e2e8ee" stroke-width="1"/>
+  <text x="210" y="204" text-anchor="middle" font-size="20" font-weight="800" fill="#06283D">Color</text>
+  <text x="210" y="228" text-anchor="middle" font-size="20" font-weight="800" fill="#06283D">System</text>
+</svg>
