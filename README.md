@@ -81,3 +81,5 @@ Drop these into any project's `:root`:
 | `index.html` | The interactive color wheel and legend — click any color to copy its hex code. Live at the Pages link above. |
 | `palette-wheel.svg` | A static snapshot of the wheel, embedded above for anyone browsing the repo. |
 | `README.md` | This file. |
+
+This repo is open to comments and suggestions!
